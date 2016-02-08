@@ -1,9 +1,25 @@
+require 'pry'
 class Minefield
   attr_reader :row_count, :column_count
 
   def initialize(row_count, column_count, mine_count)
     @column_count = column_count
     @row_count = row_count
+    @mine_count = mine_count
+    @field = Array.new(column_count) {Array.new(row_count, 'O')}
+    create_mines
+  end
+
+  def create_mines
+    mines = @mine_count
+    while mines > 0
+      rand_row = rand(@row_count)
+      rand_column = rand(@column_count)
+      if @field[rand_row][rand_column] = 'O'
+        @field[rand_row][rand_column] = 'X'
+        mines -= 1
+      end
+    end
   end
 
   # Return true if the cell been uncovered, false otherwise.
